@@ -12,7 +12,7 @@
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/runaways.jpg">
+<link rel="preload" as="image" href="img/runaways-plate.jpg">
 <style>
 :root{--bg:#0d1f14;--ink:#eef3e6;--acc:#bfe39a;--soft:#8db08a;--panel:#bfe39a;--btn:#0d1f14}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -52,6 +52,7 @@ h2{font-size:clamp(2rem,6vw,3.2rem);margin-bottom:1.6rem}
 footer{text-align:center;color:var(--soft);font-size:.9rem;padding:3rem 16px 6rem;border-top:1px solid var(--soft)}
 @media (prefers-reduced-motion:reduce){.hero{height:auto}.stage{position:relative;height:auto;padding:2rem 20px 7rem;min-height:100svh}.bk{position:relative;margin:0 auto 1.4rem;width:min(60vw,280px)!important;transform:none!important}.copy{position:relative;opacity:1!important;left:auto;right:auto;bottom:auto;top:auto;width:auto;transform:none!important;text-align:center}.btns{justify-content:center}.stage::after{display:none}}
 .copy h1{font-size:clamp(2.6rem,12vw,4.8rem);font-weight:500;letter-spacing:.01em}.copy .lab{font-style:italic;font-size:1.05rem}.bkrow h3{font-size:2.1rem}body{font-size:1.05rem}.fair h2{font-size:clamp(1.8rem,5vw,2.6rem)}
+.bk .bfly{position:absolute;left:68.5%;top:38.73%;width:5.2%;box-shadow:none;will-change:transform;z-index:2}
 </style>
 </head>
 <body>
@@ -59,7 +60,7 @@ footer{text-align:center;color:var(--soft);font-size:.9rem;padding:3rem 16px 6re
 <nav class="top" aria-label="Sections"><a href="#books">Books</a><a href="#about">Etta</a><a href="#meet">Events</a></nav>
 <header class="hero">
   <div class="stage" id="stage">
-    <div class="bk" id="bk" role="img" aria-label="Runaways by Etta Grace: two children and a masked figure with a sword walking out of a sunlit green forest"><img src="img/runaways.jpg" alt="" width="1000" height="1500"></div>
+    <div class="bk" id="bk" role="img" aria-label="Runaways by Etta Grace: two children and a masked figure with a sword walking out of a sunlit green forest"><img src="img/runaways-plate.jpg" alt="" width="1000" height="1500"><img class="bfly" id="bfly" src="img/butterfly.png" alt=""></div>
     <div class="copy" id="copy">
       <h1>Runaways</h1>
       <div class="lab">A young adult fantasy through the Seelie and Unseelie courts</div>
@@ -86,7 +87,7 @@ footer{text-align:center;color:var(--soft);font-size:.9rem;padding:3rem 16px 6re
 </main>
 <footer>A mockup made by Sparsh Saini for Etta Grace. Not affiliated, not live.</footer>
 <script>
-(()=>{const hero=document.querySelector('.hero'),stage=document.getElementById('stage'),copy=document.getElementById('copy'),bk=document.getElementById('bk');
+(()=>{const hero=document.querySelector('.hero'),stage=document.getElementById('stage'),copy=document.getElementById('copy'),bk=document.getElementById('bk'),bf=document.getElementById('bfly');
 if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 let W,H,bw,bh,rx,ry,ht,tick=false;const cl=v=>Math.max(0,Math.min(1,v)),eio=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 const R=0.6667,S0=2.3;
@@ -97,6 +98,11 @@ function draw(){tick=false;const p=cl((scrollY-hero.offsetTop)/ht);
  const fx=bw*0.5,fy=bh*0.5;
  const tx=(1-z)*(W/2-fx)+z*rx,ty=(1-z)*(H*.4-fy)+z*ry;
  bk.style.transform=`translate(${tx}px,${ty}px) scale(${s})`;
+ // the cover's blue butterfly comes in past the lens and flutters a loop across the clearing to land on the girl's hair
+ const f=cl(p/.74),fe=1-Math.pow(1-f,2.4),r=1-fe;
+ const bx=r*(-.62+.25*Math.sin(f*7.5))*bw/.052, by=r*(.48-.3*Math.sin(f*4.2+.6))*bh/.052;
+ const fl=1-r*(.75*Math.abs(Math.sin(p*46)));
+ bf.style.transform=`translate(${(bx*.052).toFixed(1)}px,${(by*.052).toFixed(1)}px) rotate(${(r*-38*Math.cos(f*6)).toFixed(1)}deg) scale(${(1+r*4).toFixed(3)},${((1+r*4)).toFixed(3)}) scaleX(${fl.toFixed(3)})`;
  const c=cl((p-.8)/.14);copy.style.opacity=c.toFixed(3);copy.style.transform=(W>=900?'translateY(-50%) ':'')+`translateY(${(1-c)*14}px)`}
 addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(draw)}},{passive:true});addEventListener('resize',measure);measure()})();
 </script>
